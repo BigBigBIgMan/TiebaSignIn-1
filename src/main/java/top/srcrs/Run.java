@@ -76,5 +76,6 @@ public class Run {
     
     public static void main(String[] args) throws UnknownHostException {
        postReq(cookie);
+        Jedis jedis = RedisDS.create().getJedis();
     }
 }
