@@ -67,9 +67,14 @@ public class Run {
         return str;
     }
 
-    public static void main(String[] args) throws UnknownHostException {
+     public static void postReq(String cookie)
+    {
         httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
         httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
         httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
+    }
+    
+    public static void main(String[] args) throws UnknownHostException {
+       postReq(cookie);
     }
 }
