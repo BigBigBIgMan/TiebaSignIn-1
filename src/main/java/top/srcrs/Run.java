@@ -86,8 +86,6 @@ public class Run {
         String str1 = postReq(note131);
         String str2 = postReq(notexk);
         String str3 = postReq(notexu);
-        System.out.println(str1);
-        System.out.println(str2);
-        System.out.println(str3);
+        //https://sctapi.ftqq.com/SCT207695TV2Mu3zwYCq2JN8dS1sGrSIBF.send?title=messagetitle&desp=desp
     }
 }
