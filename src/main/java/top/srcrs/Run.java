@@ -19,7 +19,7 @@ public class Run {
     /**
      * 接⼝调⽤  POST
      */
-    public static String httpURLConnectionPOST(String cookie) {
+    public static String httpURLConnectionPOST(String POST_URL,String cookie) {
         String str = "error";
         try {
             URL url = new URL(POST_URL);
@@ -66,6 +66,6 @@ public class Run {
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        httpURLConnectionPOST(cookie);
+        httpURLConnectionPOST(POST_URL,cookie);
     }
 }
