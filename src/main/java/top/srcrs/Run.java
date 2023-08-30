@@ -69,17 +69,25 @@ public class Run {
         return str;
     }
 
-     public static void postReq(String cookie)
+     public static String postReq(String cookie)
     {
-        httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
-        httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
-        httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
+        String str1 = httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
+        String str2 = httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
+        String str3 = httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
+        return str1+str2+str3;
     }
     
     public static void main(String[] args) throws UnknownHostException {
-       postReq(cookie);
+     
         RedisDS redisDS = RedisDS.create();
-        String str = redisDS.getStr("Note163_13171555760@163.com");
-        System.out.println(str);
+        String note131 = redisDS.getStr("Note163_13171555760@163.com");
+        String notexk = redisDS.getStr("Note163_xk@163.com");
+        String notexu = redisDS.getStr("Note163_xu_kuan@yeah.net");
+        String str1 = postReq(note131);
+        String str2 = postReq(notexk);
+        String str3 = postReq(notexu);
+        System.out.println(str1);
+        System.out.println(str2);
+        System.out.println(str3);
     }
 }
