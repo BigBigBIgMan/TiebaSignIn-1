@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-public class YouDao {
+public class Run {
 
     // 测试签到接⼝
     public static final String POST_URL = "https://note.youdao.com/yws/mapi/user?method=checkin";
