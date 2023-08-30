@@ -10,7 +10,9 @@ import java.net.UnknownHostException;
 public class Run {
 
     // 测试签到接⼝
-    public static final String POST_URL = "https://note.youdao.com/yws/mapi/user?method=checkin";
+    public static final String POST_URL_CHECKIN = "https://note.youdao.com/yws/mapi/user?method=checkin";
+    public static final String POST_URL_ADPROMPT = "https://note.youdao.com/yws/mapi/user?method=adPrompt";
+    public static final String POST_URL_ADPANDOMPROMPT = "https://note.youdao.com/yws/mapi/user?method=adRandomPrompt";
     public static final String cookie = " Hm_lvt_fcbf8a457b2c5ae9cc58b5bf4cb7cef1=1693235875;Hm_lpvt_fcbf8a457b2c5ae9cc58b5bf4cb7cef1=1693235875;__snaker__id=9YU0kgSeuzN4OqEY;___rl__test__cookies=1693235887199;JSESSIONID=D7E0597671016C41F4342E5A8C98DEDF.ynote-accountserver-docker-cwonline-3-ezf33-bmf3s-69558955sgdwb-8081;__yadk_uid=QFwt6pn46qJ62xIYbJO2Fb75MV768xg9;gdxidpyhxdE=fRDMdXC%5C%5CLvbtUEe0dzBmztQjclTlmU6ZRl7pkm7VqO0kgWjJ%5CsSYwh%2BAiLSbx3Apt0apgET4GxRPN%5C%2BTdVC47kPDDy1Jpo%5ClhqNKus6JNqIRm%2F2A9SWlcjhOI1mAqCjB2CER03v9x%2BESvISgf9mM0g7LVixZv6kRENWkHfeWR%2FaXTvT%3A1693236777857;YD00053006227227%3AWM_NI=NTnKqo4z%2BmGVH86UJnMKaFBbr0S0EnRq0LKsX1DGbFphv5wbo5a%2Fftgh7e9wuXEpNNNuNYGO8PyqDttAd%2BjT38rbMaODXC%2BB%2B29b6WQ1B17ahzRKaB5fK2IMp6fU449bUko%3D;YD00053006227227%3AWM_NIKE=9ca17ae2e6ffcda170e2e6ee89c13af6b982d2b67caceb8fb6d55b869f9f83c16697f1a88ef27085ebe5aab22af0fea7c3b92a8e8ca2acf465f8a6e58ec65e8ce8fab6c9668f95afa7c16ab2f09dd1c86692af00adca799cef8ca8e14eb4b8bad6f66aadebafd0e580a5b8f986bc7db7888b91cd468eab82bac645fc90b792c780b89faccce960f1e8be83d06b8d9c98a4aa4ae9eef783b55d93ef8ed2b66baca69eace44af7ba85d3cc47b4eaaab6b740fbbe9b8cee37e2a3;YD00053006227227%3AWM_TID=AtU19tzDayVFERURBFLViV7h3oJToqIz;YNOTE_SESS=v2|UGQ82QsqfVzmhLYf0fwLRkMkMY5hLOG0eKh4Qu6L6yReLPMTyhfpL0UW64qBkfeL0l50fJu64pBRPL0HQS64pu0Ul0LgLRHOfR;YNOTE_PERS=v2|urstoken||YNOTE||web||-1||1693235883316||20.168.158.183||m13171555760@163.com||w4kMOWkfqy0qZOMTy0MQK0wKhLYG6Mlm0TLPMJz0HTFReBnfYGnflY0eS6LJ4hLl50p4nHUWP4eLRYYhfwzhfQL0;YNOTE_LOGIN=3||1693235883324;YNOTE_CSTK=9AVCyPHm";
 //    public static final String cookie ="YNOTE_SESS=v2|O7ZXvcT2emk5k4JK64eBRQShMUE0feL06uh4kWn4qu0zf0MUMh4TuRz56LpL6Mz50JzOMlA64g4RJLhMe4nMgLRkA6Mkm6LJBR";
 //    public static final String cookie = "YNOTE_SESS=v2|8JgBNW2D-mQ46MzGh4qL0YGn46yhLlfRYfhfkfk4qK0kl0Hq4RHwu0k56LTBh4z50Q4P4p4kLUERkmh4PLhHOY0l5hMq4OMlMR";
@@ -66,6 +68,8 @@ public class Run {
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        httpURLConnectionPOST(POST_URL,cookie);
+        httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
+        httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
+        httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
     }
 }
