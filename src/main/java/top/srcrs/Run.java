@@ -1,12 +1,13 @@
 package top.srcrs;
 
+import util.RedisDS;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.main.util;
 
 public class Run {
 
@@ -77,7 +78,8 @@ public class Run {
     
     public static void main(String[] args) throws UnknownHostException {
        postReq(cookie);
-        String str = (String)RedisDS.get("Note163_13171555760@163.com");
+        RedisDS redisDS = RedisDS.create();
+        String str = redisDS.getStr("Note163_13171555760@163.com");
         System.out.println(str);
     }
 }
