@@ -1,183 +1,71 @@
 package top.srcrs;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import top.srcrs.domain.Cookie;
-import top.srcrs.util.Encryption;
-import top.srcrs.util.Request;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 
-/**
- * 程序运行开始的地方
- * @author srcrs
- * @Time 2020-10-31
- */
-public class Run
-{
-    /** 获取日志记录器对象 */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Run.class);
+public class YouDao {
 
-    /** 获取用户所有关注贴吧 */
-    String LIKE_URL = "https://tieba.baidu.com/mo/q/newmoindex";
-    /** 获取用户的tbs */
-    String TBS_URL = "http://tieba.baidu.com/dc/common/tbs";
-    /** 贴吧签到接口 */
-    String SIGN_URL = "http://c.tieba.baidu.com/c/c/forum/sign";
-
-    /** 存储用户所关注的贴吧 */
-    private List<String> follow = new ArrayList<>();
-    /** 签到成功的贴吧列表 */
-    private static List<String>  success = new ArrayList<>();
-    /** 用户的tbs */
-    private String tbs = "";
-    /** 用户所关注的贴吧数量 */
-    private static Integer followNum = 201;
-    public static void main( String[] args ){
-        Cookie cookie = Cookie.getInstance();
-        // 存入Cookie，以备使用
-        if(args.length==0){
-            LOGGER.warn("请在Secrets中填写BDUSS");
-        }
-        cookie.setBDUSS(args[0]);
-        Run run = new Run();
-        run.getTbs();
-        run.getFollow();
-        run.runSign();
-        LOGGER.info("共 {} 个贴吧 - 成功: {} - 失败: {}",followNum,success.size(),followNum-success.size());
-        if(args.length == 2){
-            run.send(args[1]);
-        }
-    }
+    // 测试签到接⼝
+    public static final String POST_URL = "https://note.youdao.com/yws/mapi/user?method=checkin";
+    public static final String cookie = " Hm_lvt_fcbf8a457b2c5ae9cc58b5bf4cb7cef1=1693235875;Hm_lpvt_fcbf8a457b2c5ae9cc58b5bf4cb7cef1=1693235875;__snaker__id=9YU0kgSeuzN4OqEY;___rl__test__cookies=1693235887199;JSESSIONID=D7E0597671016C41F4342E5A8C98DEDF.ynote-accountserver-docker-cwonline-3-ezf33-bmf3s-69558955sgdwb-8081;__yadk_uid=QFwt6pn46qJ62xIYbJO2Fb75MV768xg9;gdxidpyhxdE=fRDMdXC%5C%5CLvbtUEe0dzBmztQjclTlmU6ZRl7pkm7VqO0kgWjJ%5CsSYwh%2BAiLSbx3Apt0apgET4GxRPN%5C%2BTdVC47kPDDy1Jpo%5ClhqNKus6JNqIRm%2F2A9SWlcjhOI1mAqCjB2CER03v9x%2BESvISgf9mM0g7LVixZv6kRENWkHfeWR%2FaXTvT%3A1693236777857;YD00053006227227%3AWM_NI=NTnKqo4z%2BmGVH86UJnMKaFBbr0S0EnRq0LKsX1DGbFphv5wbo5a%2Fftgh7e9wuXEpNNNuNYGO8PyqDttAd%2BjT38rbMaODXC%2BB%2B29b6WQ1B17ahzRKaB5fK2IMp6fU449bUko%3D;YD00053006227227%3AWM_NIKE=9ca17ae2e6ffcda170e2e6ee89c13af6b982d2b67caceb8fb6d55b869f9f83c16697f1a88ef27085ebe5aab22af0fea7c3b92a8e8ca2acf465f8a6e58ec65e8ce8fab6c9668f95afa7c16ab2f09dd1c86692af00adca799cef8ca8e14eb4b8bad6f66aadebafd0e580a5b8f986bc7db7888b91cd468eab82bac645fc90b792c780b89faccce960f1e8be83d06b8d9c98a4aa4ae9eef783b55d93ef8ed2b66baca69eace44af7ba85d3cc47b4eaaab6b740fbbe9b8cee37e2a3;YD00053006227227%3AWM_TID=AtU19tzDayVFERURBFLViV7h3oJToqIz;YNOTE_SESS=v2|UGQ82QsqfVzmhLYf0fwLRkMkMY5hLOG0eKh4Qu6L6yReLPMTyhfpL0UW64qBkfeL0l50fJu64pBRPL0HQS64pu0Ul0LgLRHOfR;YNOTE_PERS=v2|urstoken||YNOTE||web||-1||1693235883316||20.168.158.183||m13171555760@163.com||w4kMOWkfqy0qZOMTy0MQK0wKhLYG6Mlm0TLPMJz0HTFReBnfYGnflY0eS6LJ4hLl50p4nHUWP4eLRYYhfwzhfQL0;YNOTE_LOGIN=3||1693235883324;YNOTE_CSTK=9AVCyPHm";
+//    public static final String cookie ="YNOTE_SESS=v2|O7ZXvcT2emk5k4JK64eBRQShMUE0feL06uh4kWn4qu0zf0MUMh4TuRz56LpL6Mz50JzOMlA64g4RJLhMe4nMgLRkA6Mkm6LJBR";
+//    public static final String cookie = "YNOTE_SESS=v2|8JgBNW2D-mQ46MzGh4qL0YGn46yhLlfRYfhfkfk4qK0kl0Hq4RHwu0k56LTBh4z50Q4P4p4kLUERkmh4PLhHOY0l5hMq4OMlMR";
+//    public static final String cookie = "YNOTE_SESS=v2|0hqKrleHQmTKh4pFkfgz0UWh46FPLzf0TFnfqukMY50OWPMYfOMqF0JS0MllhfzMReuRHPuhMO5ROfOfJukfkM06zO4TBkLkMR";
 
     /**
-     * 进行登录，获得 tbs ，签到的时候需要用到这个参数
-     * @author srcrs
-     * @Time 2020-10-31
+     * 接⼝调⽤  POST
      */
-    public void getTbs(){
-        try{
-            JSONObject jsonObject = Request.get(TBS_URL);
-            if("1".equals(jsonObject.getString("is_login"))){
-                LOGGER.info("获取tbs成功");
-                tbs = jsonObject.getString("tbs");
-            } else{
-                LOGGER.warn("获取tbs失败 -- " + jsonObject);
+    public static String httpURLConnectionPOST(String cookie) {
+        String str = "error";
+        try {
+            URL url = new URL(POST_URL);
+// 将url 以 open⽅法返回的urlConnection  连接强转为HttpURLConnection连接  (标识⼀个url所引⽤的远程对象连接)
+// 此时cnnection只是为⼀个连接对象,待连接中
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+// 设置连接输出流为true,默认false (post 请求是以流的⽅式隐式的传递参数)
+            connection.setDoOutput(true);
+// 设置连接输⼊流为true
+            connection.setDoInput(true);
+// 设置请求⽅式为post
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Cookie", cookie);
+            connection.setRequestProperty("Host", "note.youdao.com");
+            connection.setRequestProperty("Cache-Control", "no-cache");
+            connection.setRequestProperty("Accept", "*/*");
+            connection.setRequestProperty("User-Agent", "YNote");
+
+// 建⽴连接 (请求未开始,直到connection.getInputStream()⽅法调⽤时才发起,以上各个参数设置需在此⽅法之前进⾏)
+            connection.connect();
+// 创建输⼊输出流,⽤于往连接⾥⾯输出携带的参数,(输出内容为?后⾯的内容)
+            DataOutputStream dataout = new DataOutputStream(connection.getOutputStream());
+// 输出完成后刷新并关闭流
+            dataout.flush();
+            dataout.close(); // 重要且易忽略步骤 (关闭流,切记!)
+//System.out.println(connection.getResponseCode());
+// 连接发起请求,处理服务器响应  (从连接获取到输⼊流并包装为bufferedReader)
+            BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            String line;
+            StringBuilder sb = new StringBuilder(); // ⽤来存储响应数据
+// 循环读取流,若不到结尾处
+            while ((line = bf.readLine()) != null) {
+//sb.append(bf.readLine());
+                sb.append(line).append(System.getProperty("line.separator"));
             }
-        } catch (Exception e){
-            LOGGER.error("获取tbs部分出现错误 -- " + e);
+            bf.close();    // 重要且易忽略步骤 (关闭流,切记!)
+            connection.disconnect(); // 销毁连接
+            System.out.println(sb.toString());
+            str=sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return str;
     }
 
-    /**
-     * 获取用户所关注的贴吧列表
-     * @author srcrs
-     * @Time 2020-10-31
-     */
-    public void getFollow(){
-        try{
-            JSONObject jsonObject = Request.get(LIKE_URL);
-            LOGGER.info("获取贴吧列表成功");
-            JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("like_forum");
-            followNum = jsonArray.size();
-            // 获取用户所有关注的贴吧
-            for (Object array : jsonArray) {
-                if("0".equals(((JSONObject) array).getString("is_sign"))){
-                    // 将为签到的贴吧加入到 follow 中，待签到
-                    follow.add(((JSONObject) array).getString("forum_name").replace("+","%2B"));
-                } else{
-                    // 将已经成功签到的贴吧，加入到 success
-                    success.add(((JSONObject) array).getString("forum_name"));
-                }
-            }
-        } catch (Exception e){
-            LOGGER.error("获取贴吧列表部分出现错误 -- " + e);
-        }
-    }
-
-    /**
-     * 开始进行签到，每一轮性将所有未签到的贴吧进行签到，一共进行5轮，如果还未签到完就立即结束
-     * 一般一次只会有少数的贴吧未能完成签到，为了减少接口访问次数，每一轮签到完等待1分钟，如果在过程中所有贴吧签到完则结束。
-     * @author srcrs
-     * @Time 2020-10-31
-     */
-    public void runSign(){
-        // 当执行 5 轮所有贴吧还未签到成功就结束操作
-        Integer flag = 5;
-        try{
-            while(success.size()<followNum&&flag>0){
-                LOGGER.info("-----第 {} 轮签到开始-----", 5 - flag + 1);
-                LOGGER.info("还剩 {} 贴吧需要签到", followNum - success.size());
-                Iterator<String> iterator = follow.iterator();
-                while(iterator.hasNext()){
-                    String s = iterator.next();
-                    String rotation = s.replace("%2B","+");
-                    String body = "kw="+s+"&tbs="+tbs+"&sign="+ Encryption.enCodeMd5("kw="+rotation+"tbs="+tbs+"tiebaclient!!!");
-                    JSONObject post = Request.post(SIGN_URL, body);
-                    if("0".equals(post.getString("error_code"))){
-                        iterator.remove();
-                        success.add(rotation);
-                        LOGGER.info(rotation + ": " + "签到成功");
-                    } else {
-                        LOGGER.warn(rotation + ": " + "签到失败");
-                    }
-                }
-                if (success.size() != followNum){
-                    // 为防止短时间内多次请求接口，触发风控，设置每一轮签到完等待 5 分钟
-                    Thread.sleep(1000 * 60 * 5);
-                    /**
-                     * 重新获取 tbs
-                     * 尝试解决以前第 1 次签到失败，剩余 4 次循环都会失败的错误。
-                     */
-                    getTbs();
-                }
-                flag--;
-            }
-        } catch (Exception e){
-            LOGGER.error("签到部分出现错误 -- " + e);
-        }
-    }
-
-    /**
-     * 发送运行结果到微信，通过 server 酱
-     * @param sckey
-     * @author srcrs
-     * @Time 2020-10-31
-     */
-    public void send(String sckey){
-        /** 将要推送的数据 */
-        String text = "总: "+ followNum + " - ";
-        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String desp = "共 "+ followNum + " 贴吧\n\n";
-        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String body = "text="+text+"&desp="+"TiebaSignIn运行结果\n\n"+desp;
-        StringEntity entityBody = new StringEntity(body,"UTF-8");
-        HttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://sc.ftqq.com/"+sckey+".send");
-        httpPost.addHeader("Content-Type","application/x-www-form-urlencoded");
-        httpPost.setEntity(entityBody);
-        HttpResponse resp = null;
-        String respContent = null;
-        try{
-            resp = client.execute(httpPost);
-            HttpEntity entity=null;
-            if(resp.getStatusLine().getStatusCode()<400){
-                entity = resp.getEntity();
-            } else{
-                entity = resp.getEntity();
-            }
-            respContent = EntityUtils.toString(entity, "UTF-8");
-            LOGGER.info("server酱推送正常");
-        } catch (Exception e){
-            LOGGER.error("server酱发送失败 -- " + e);
-        }
+    public static void main(String[] args) throws UnknownHostException {
+        httpURLConnectionPOST(cookie);
     }
 }
