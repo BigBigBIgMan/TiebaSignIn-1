@@ -17,6 +17,5 @@ public class Run {
         String content = YouDaoNote.content;
         TellMsg.tellMsg(title, content +notice);
         System.out.println("消息推送耗时："+timer.intervalRestart());
-        System.exit(0)
     }
 }
