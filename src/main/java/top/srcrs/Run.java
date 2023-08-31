@@ -93,6 +93,9 @@ public class Run {
         String str2 = postReq(notexk);
         String str3 = postReq(notexu);
         //https://sctapi.ftqq.com/SCT207695TV2Mu3zwYCq2JN8dS1sGrSIBF.send?title=messagetitle&desp=desp
+        System.out.println(str1);
+        System.out.println(str2);
+        System.out.println(str3);
          redisDS.close();
     }
 }
