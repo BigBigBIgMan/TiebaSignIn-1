@@ -90,7 +90,7 @@ public class Run {
                 HttpRequest.setGlobalTimeout(2000);
                 HttpResponse response  = HttpRequest.post(url).execute();
                 String responseStr = response.body();
-                JSONObject responseJson = JSONUtil.parseObj(responseStr);
+                System.out.println(responseStr);
             } catch (Exception e) {
                 String message = e.getMessage();
                 System.out.println(message);
