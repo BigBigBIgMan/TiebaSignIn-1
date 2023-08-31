@@ -40,7 +40,7 @@ public class AliYunDrive {
         param.putOpt("grant_type","refresh_token");
         param.putOpt("refresh_token","b2a86e0267ca4160bce15efdd102cfe2");
 
-        String result = HttpUtil.createPost(GET_TOKEN)
+        String result = HttpRequest.post(GET_TOKEN)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .timeout(60000)
                 .body(param.toString()).execute().body();
@@ -56,7 +56,7 @@ public class AliYunDrive {
         param.putOpt("isReward",false);
         param.putOpt("_rx-s","mobile");
 
-        String result = HttpUtil.createPost(SING_IN_LIST)
+        String result = HttpRequest.post(SING_IN_LIST)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(60000)
@@ -74,7 +74,7 @@ public class AliYunDrive {
         param.putOpt("signInDay",signInCount);
         param.putOpt("_rx-s","mobile");
 
-        String result = HttpUtil.createPost(SING_IN_REWARD)
+        String result = HttpRequest.post(SING_IN_REWARD)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(60000)
