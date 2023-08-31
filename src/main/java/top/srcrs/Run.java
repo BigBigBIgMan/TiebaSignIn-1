@@ -13,9 +13,13 @@ public class Run {
         String title = YouDaoNote.YouDaoNoteDo();
         System.out.println("有道云签到耗时："+timer.intervalRestart());
         String notice = AliYunDrive.aliYunDriveCheckin();
+        System.out.println(notice);
         System.out.println("阿里云盘签到耗时："+timer.intervalRestart());
+        String pcr532Msg = Pcr532.checkIn();
+        System.out.println("PCR532推送耗时："+timer.intervalRestart());
         String content = YouDaoNote.content;
-        TellMsg.tellMsg(title, content +notice);
+        TellMsg.tellMsg(title, content +notice+"<br/>"+pcr532Msg);
         System.out.println("消息推送耗时："+timer.intervalRestart());
+
     }
 }
