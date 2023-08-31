@@ -23,13 +23,13 @@ public class AliYunDrive {
     }
 
     public static String aliYunDriveCheckin()  {
-        String aaccessToken = postReq();
-        Integer signInCount = postReq2(aaccessToken);
-        String notice = postReq3(aaccessToken,signInCount);
+        String aaccessToken = getAccessToken();
+        Integer signInCount = checkIn(aaccessToken);
+        String notice = getReward(aaccessToken,signInCount);
         return notice;
     }
 
-    public static String  postReq()
+    public static String  getAccessToken()
     {
         JSONObject param = JSONUtil.createObj();
         param.putOpt("grant_type","refresh_token");
@@ -45,7 +45,7 @@ public class AliYunDrive {
         return accessToken;
     }
 
-    public static Integer postReq2(String accessToken)
+    public static Integer checkIn(String accessToken)
     {
         JSONObject param = JSONUtil.createObj();
         param.putOpt("isReward",false);
@@ -63,7 +63,7 @@ public class AliYunDrive {
         return signInCount;
     }
 
-    public static String postReq3(String accessToken,Integer signInCount)
+    public static String getReward(String accessToken,Integer signInCount)
     {
         JSONObject param = JSONUtil.createObj();
         param.putOpt("signInDay",signInCount);
@@ -74,7 +74,7 @@ public class AliYunDrive {
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(60000)
                 .body(param.toString()).execute().body();
-        System.out.println(result);
+        //System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         String notice = resultJson.getStr("notice");
