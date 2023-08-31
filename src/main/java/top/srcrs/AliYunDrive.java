@@ -15,11 +15,6 @@ public class AliYunDrive {
     public static final String SING_IN_LIST = "https://member.aliyundrive.com/v1/activity/sign_in_list";
     public static final String SING_IN_REWARD = "https://member.aliyundrive.com/v1/activity/sign_in_reward";
 
-    public static final String[] USER = {"Note163_13171555760@163.com","Note163_xk@163.com","Note163_xu_kuan@yeah.net"};
-    static RedisDS  redisDS = RedisDS.create();
-
-    public static String content = "";
-
 
     public static void main(String[] args)  {
         String notice = aliYunDriveCheckin();
