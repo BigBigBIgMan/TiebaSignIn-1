@@ -7,6 +7,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import util.RedisDS;
+import util.TellMsg;
 
 import java.net.UnknownHostException;
 
@@ -27,7 +28,7 @@ public class YouDaoNote {
         YouDaoNoteDo();
     }
 
-    public static void YouDaoNoteDo()  {
+    public static String YouDaoNoteDo()  {
         String title = "签到结果：";
         for (int i = 0; i < USER.length; i++) {
             String name = USER[i];
@@ -37,11 +38,12 @@ public class YouDaoNote {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                tellMsg(name+"异常",e.getMessage());
+                TellMsg.tellMsg(name+"异常",e.getMessage());
             }
         }
-        tellMsg(title, content);
         redisDS.close();
+
+        return title;
     }
 
     public static long postReq(String name)
@@ -65,36 +67,5 @@ public class YouDaoNote {
         Long responseSpace = responseJson.getLong("space")/1024/1024;
 
         return responseSpace;
-    }
-
-    public static void tellMsg(String title,String msg)
-    {
-        String code = "";
-        try {
-            String url = "https://sctapi.ftqq.com/SCT207695TV2Mu3zwYCq2JN8dS1sGrSIBF.send?title="+title+"&desp="+msg;
-            HttpRequest.setGlobalTimeout(2000);
-            HttpResponse response  = HttpRequest.post(url).execute();
-            String responseStr = response.body();
-            JSONObject responseJson = JSONUtil.parseObj(responseStr);
-            code = responseJson.getStr("code");
-            System.out.println(responseStr);
-//            {"code":0,"message":"","data":{"pushid":"136742982","readkey":"SCTU5pmCJ9UyGvh","error":"SUCCESS","errno":0}}
-        } catch (Exception e) {
-            String message = e.getMessage();
-            System.out.println(message);
-        }
-
-        if(!"0".equals(code)){
-            try {
-                String purl  = "http://www.pushplus.plus/send?token=ebbee855fc8942708aa6f50c9e9cd66d&title="+title+"&content="+msg;
-                HttpResponse responseP = HttpRequest.post(purl).execute();
-                String responsePStr = responseP.body();
-//                JSONObject responsePJson = JSONUtil.parseObj(responsePStr);
-//                code = responsePJson.getStr("code");
-                System.out.println(responsePStr);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
