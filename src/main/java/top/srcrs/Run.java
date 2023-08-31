@@ -1,5 +1,7 @@
 package top.srcrs;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import util.RedisDS;
 
 import java.io.BufferedReader;
@@ -71,10 +73,14 @@ public class Run {
 
      public static String postReq(String cookie)
     {
-        String str1 = httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
-        String str2 = httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
-        String str3 = httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
-        return str1+str2+str3;
+        // String str1 = httpURLConnectionPOST(POST_URL_CHECKIN,cookie);
+        // String str2 = httpURLConnectionPOST(POST_URL_ADPROMPT,cookie);
+        // String str3 = httpURLConnectionPOST(POST_URL_ADPANDOMPROMPT,cookie);
+        // return str1+str2+str3;
+        HttpResponse checkin = HttpRequest.post(POST_URL_CHECKIN).header("cookie",cookie).execute();
+        HttpResponse adprompt = HttpRequest.post(POST_URL_ADPROMPT).header("cookie",cookie).execute();
+        HttpResponse adpandomprompt = HttpRequest.post(POST_URL_ADPANDOMPROMPT).header("cookie",cookie).execute();
+        return checkin.body()+adprompt.body()+adpandomprompt.body();
     }
     
     public static void main(String[] args) throws UnknownHostException {
