@@ -51,7 +51,7 @@ public class YouDaoNote {
         String cookie = redisDS.getStr(name);
         Long checkinSpace = postReq(POST_URL_CHECKIN,cookie);
         Long adpromptSpace = 0;
-        Long  =  0;
+        Long  adpandompromptSpace =  0;
         for(int i=0;i<3;i++){
              adpromptSpace += postReq(POST_URL_ADPROMPT,cookie);
              adpandompromptSpace +=postReq(POST_URL_ADPANDOMPROMPT,cookie);
