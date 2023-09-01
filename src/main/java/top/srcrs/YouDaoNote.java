@@ -60,7 +60,7 @@ public class YouDaoNote {
         long total = checkinSpace + adpromptSpace + adpandompromptSpace;
         String msg = "共获取："+total+"签到获取："+checkinSpace+"看广告："+adpromptSpace+"看视频广告："+adpandompromptSpace;
         System.out.println(msg);
-        content += msg + "%0D%0A%0D%0A %0D%0A%0D%0A ";
+        content += msg + "%0D%0A%0D%0A ";
         return total;
     }
 
