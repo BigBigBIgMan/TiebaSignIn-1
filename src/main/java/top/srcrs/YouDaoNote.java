@@ -50,17 +50,17 @@ public class YouDaoNote {
     {
         String cookie = redisDS.getStr(name);
         Long checkinSpace = postReq(POST_URL_CHECKIN,cookie);
-        Long adpromptSpace = 0;
-        Long  adpandompromptSpace =  0;
+        Long adpromptSpace = 0l;
+        Long  adpandompromptSpace =  0l;
         for(int i=0;i<3;i++){
-             adpromptSpace += postReq(POST_URL_ADPROMPT,cookie);
-             adpandompromptSpace +=postReq(POST_URL_ADPANDOMPROMPT,cookie);
-        }      
-        
+            adpromptSpace += postReq(POST_URL_ADPROMPT,cookie);
+            adpandompromptSpace +=postReq(POST_URL_ADPANDOMPROMPT,cookie);
+        }
+
         long total = checkinSpace + adpromptSpace + adpandompromptSpace;
         String msg = "共获取："+total+"签到获取："+checkinSpace+"看广告："+adpromptSpace+"看视频广告："+adpandompromptSpace;
         System.out.println(msg);
-        content += msg + "/n";
+        content += msg + "%0D%0A%0D%0A %0D%0A%0D%0A ";
         return total;
     }
 
