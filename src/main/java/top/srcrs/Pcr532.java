@@ -1,10 +1,6 @@
 package top.srcrs;
 
-import cn.hutool.http.Header;
-import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 
 public class Pcr532 {
 
@@ -18,7 +14,12 @@ public class Pcr532 {
     }
 
     public static String checkIn()  {
-        String post = HttpUtil.post("https://www.rfidfans.com/upload/qiandao.php", "username=xukuan&passc=MTIzNDU2&USERID=MTAwMDIxNjM2Mw==");
+        String post = null;
+        try {
+            post = HttpUtil.post("https://www.rfidfans.com/upload/qiandao.php", "username=xukuan&passc=MTIzNDU2&USERID=MTAwMDIxNjM2Mw==",3000);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return post;
     }
 }
