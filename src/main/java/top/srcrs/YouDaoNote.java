@@ -50,8 +50,10 @@ public class YouDaoNote {
     public static long postReq(String name)
     {
         String cookie = redisDS.getStr(name);
-        String str = postDAUPROMOTION(cookie);
-        System.out.println(str);
+        String daupromotion = postDAUPROMOTION(cookie);
+        if(daupromotion.contains("error")){
+            return -1l;
+        }
         Long checkinSpace = postReq(POST_URL_CHECKIN,cookie);
         Long adpromptSpace = 0l;
         Long  adpandompromptSpace =  0l;
