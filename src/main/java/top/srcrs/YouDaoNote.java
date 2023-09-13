@@ -17,6 +17,7 @@ public class YouDaoNote {
     public static final String POST_URL_CHECKIN = "https://note.youdao.com/yws/mapi/user?method=checkin";
     public static final String POST_URL_ADPROMPT = "https://note.youdao.com/yws/mapi/user?method=adPrompt";
     public static final String POST_URL_ADPANDOMPROMPT = "https://note.youdao.com/yws/mapi/user?method=adRandomPrompt";
+    public static final String POST_URL_DAUPROMOTION =  "https://note.youdao.com/yws/api/daupromotion?method=sync";
 
     public static final String[] USER = {"Note163_13171555760@163.com","Note163_xk@163.com","Note163_xu_kuan@yeah.net"};
     static RedisDS  redisDS = RedisDS.create();
@@ -49,6 +50,8 @@ public class YouDaoNote {
     public static long postReq(String name)
     {
         String cookie = redisDS.getStr(name);
+        String str = postDAUPROMOTION(cookie);
+        System.out.println(str);
         Long checkinSpace = postReq(POST_URL_CHECKIN,cookie);
         Long adpromptSpace = 0l;
         Long  adpandompromptSpace =  0l;
@@ -72,5 +75,12 @@ public class YouDaoNote {
         Long responseSpace = responseJson.getLong("space")/1024/1024;
 
         return responseSpace;
+    }
+
+    public static String postDAUPROMOTION(String cookie)
+    {
+        HttpResponse response = HttpRequest.post(POST_URL_DAUPROMOTION).header("Host","note.youdao.com").header("Cache-Control","no-cache").header("Accept","*/*").header("User-Agent","YNote").header("cookie",cookie).execute();
+        String responseStr = response.body();
+        return responseStr;
     }
 }
