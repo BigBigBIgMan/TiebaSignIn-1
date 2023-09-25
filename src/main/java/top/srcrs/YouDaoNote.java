@@ -19,7 +19,7 @@ public class YouDaoNote {
     public static final String POST_URL_ADPANDOMPROMPT = "https://note.youdao.com/yws/mapi/user?method=adRandomPrompt";
     public static final String POST_URL_DAUPROMOTION =  "https://note.youdao.com/yws/api/daupromotion?method=sync";
 
-    public static final String[] USER = {"Note163_13171555760@163.com","Note163_xk@163.com","Note163_xu_kuan@yeah.net"};
+    public static final String[] USER = {"Note163_xu_kuan@yeah.net","Note163_13171555760@163.com","Note163_xk@163.com"};
     static RedisDS  redisDS = RedisDS.create();
 
     public static String content = "";

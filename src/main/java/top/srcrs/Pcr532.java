@@ -18,7 +18,7 @@ public class Pcr532 {
         try {
             post = HttpUtil.post("https://www.rfidfans.com/upload/qiandao.php", "username=xukuan&passc=MTIzNDU2&USERID=MTAwMDIxNjM2Mw==",3000);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return post;
     }
