@@ -8,6 +8,8 @@ import util.RedisDS;
 import java.util.HashMap;
 import java.util.List;
 
+import static cn.hutool.poi.excel.sax.AttributeName.t;
+
 public class AliYunDrive {
 
     // 测试签到接⼝
@@ -23,9 +25,16 @@ public class AliYunDrive {
     }
 
     public static String aliYunDriveCheckin()  {
-        String aaccessToken = getAccessToken();
-        Integer signInCount = checkIn(aaccessToken);
-        String notice = getReward(aaccessToken,signInCount);
+
+
+        String notice = null;
+        try {
+            String aaccessToken = getAccessToken();
+            Integer signInCount = checkIn(aaccessToken);
+            notice = getReward(aaccessToken,signInCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return notice;
     }
 
@@ -33,7 +42,7 @@ public class AliYunDrive {
     {
         JSONObject param = JSONUtil.createObj();
         param.putOpt("grant_type","refresh_token");
-        param.putOpt("refresh_token","b2a86e0267ca4160bce15efdd102cfe2");
+        param.putOpt("refresh_token","abba2e4443cb41bc863791d12e06dbff");
 
         String result = HttpRequest.post(GET_TOKEN)
                 .header(Header.CONTENT_TYPE, "application/json")
