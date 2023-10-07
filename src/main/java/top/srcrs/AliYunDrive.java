@@ -46,7 +46,7 @@ public class AliYunDrive {
 
         String result = HttpRequest.post(GET_TOKEN)
                 .header(Header.CONTENT_TYPE, "application/json")
-                .timeout(60000)
+                .timeout(10000)
                 .body(param.toString()).execute().body();
 //        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
@@ -63,7 +63,7 @@ public class AliYunDrive {
         String result = HttpRequest.post(SING_IN_LIST)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .header("Authorization", "Bearer "+accessToken)
-                .timeout(60000)
+                .timeout(10000)
                 .body(param.toString()).execute().body();
 //        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
@@ -81,7 +81,7 @@ public class AliYunDrive {
         String result = HttpRequest.post(SING_IN_REWARD)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .header("Authorization", "Bearer "+accessToken)
-                .timeout(60000)
+                .timeout(10000)
                 .body(param.toString()).execute().body();
         //System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
