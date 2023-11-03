@@ -42,7 +42,7 @@ public class AliYunDrive {
     {
         JSONObject param = JSONUtil.createObj();
         param.putOpt("grant_type","refresh_token");
-        param.putOpt("refresh_token","abba2e4443cb41bc863791d12e06dbff");
+        param.putOpt("refresh_token","7a844196033d45f0af9e3399b7ef18f3");
 
         String result = HttpRequest.post(GET_TOKEN)
                 .header(Header.CONTENT_TYPE, "application/json")
