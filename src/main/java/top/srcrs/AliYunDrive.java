@@ -16,7 +16,7 @@ public class AliYunDrive {
     public static final String GET_TOKEN = "https://auth.aliyundrive.com/v2/account/token";
     public static final String SING_IN_LIST = "https://member.aliyundrive.com/v1/activity/sign_in_list";
     public static final String SING_IN_REWARD = "https://member.aliyundrive.com/v1/activity/sign_in_reward";
-
+    static RedisDS  redisDS = RedisDS.create();
 
     public static void main(String[] args)  {
         String notice = aliYunDriveCheckin();
@@ -40,17 +40,21 @@ public class AliYunDrive {
 
     public static String  getAccessToken()
     {
+        //JSON.parse(localStorage.token).refresh_token
+        String refresh_token = redisDS.getStr("refresh_token");
+
         JSONObject param = JSONUtil.createObj();
         param.putOpt("grant_type","refresh_token");
-        param.putOpt("refresh_token","7a844196033d45f0af9e3399b7ef18f3");
+        param.putOpt("refresh_token",refresh_token);
 
         String result = HttpRequest.post(GET_TOKEN)
                 .header(Header.CONTENT_TYPE, "application/json")
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-        System.out.println(result);
+//        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         String accessToken = responseJson.getStr("access_token");
+        redisDS.close();
         return accessToken;
     }
 
@@ -65,7 +69,7 @@ public class AliYunDrive {
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-        System.out.println(result);
+//        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         Integer  signInCount = resultJson.getInt("signInCount");
@@ -83,7 +87,7 @@ public class AliYunDrive {
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-        System.out.println(result);
+        //System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         String notice = resultJson.getStr("notice");
