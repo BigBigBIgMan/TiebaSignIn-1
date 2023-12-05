@@ -48,7 +48,7 @@ public class AliYunDrive {
                 .header(Header.CONTENT_TYPE, "application/json")
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-//        System.out.println(result);
+        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         String accessToken = responseJson.getStr("access_token");
         return accessToken;
@@ -65,7 +65,7 @@ public class AliYunDrive {
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-//        System.out.println(result);
+        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         Integer  signInCount = resultJson.getInt("signInCount");
@@ -83,7 +83,7 @@ public class AliYunDrive {
                 .header("Authorization", "Bearer "+accessToken)
                 .timeout(10000)
                 .body(param.toString()).execute().body();
-        //System.out.println(result);
+        System.out.println(result);
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         String notice = resultJson.getStr("notice");
