@@ -118,10 +118,15 @@ public class AliYunDrive {
                 .timeout(10000)
                 .body(param.toString()).execute().body();
         System.out.println(result);
+        try {
         JSONObject responseJson = JSONUtil.parseObj(result);
         JSONObject resultJson = responseJson.getJSONObject("result");
         String notice = resultJson.getStr("notice");
-        return "阿里云盘每日任务签到结果："+notice;
+            return "阿里云盘每日任务签到结果："+notice;
+        }catch (Exception e){
+            return "阿里云盘每日任务签到结果："+result;
+        }
+
     }
 
 }
