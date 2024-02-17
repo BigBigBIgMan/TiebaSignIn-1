@@ -17,6 +17,7 @@ public class Run {
         System.out.println("阿里云盘签到耗时："+timer.intervalRestart());
         String pcr532Msg = Pcr532.checkIn();
         System.out.println("PCR532推送耗时："+timer.intervalRestart());
+        System.out.println("PCR532返回内容："+pcr532Msg);
         String content = YouDaoNote.content;
         TellMsg.tellMsg(title, content +notice+"%0D%0A%0D%0A "+pcr532Msg);
         System.out.println("消息推送耗时："+timer.intervalRestart());
