@@ -16,7 +16,7 @@ public class Pcr532 {
     public static String checkIn()  {
         String post = "Not running";
         try {
-           // post = HttpUtil.post("https://www.rfidfans.com/upload/qiandao.php", "username=xukuan&passc=MTIzNDU2&USERID=MTAwMDIxNjM2Mw==",3000);
+               post = HttpUtil.post("https://www.rfidfans.com/upload/qiandao.php", "username=xukuan&passc=MTIzNDU2&USERID=MTAwMDIxNjM2Mw==",3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
