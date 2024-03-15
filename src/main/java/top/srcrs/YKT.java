@@ -14,6 +14,11 @@ import cn.hutool.json.JSONUtil;
 import java.util.Date;
 
 public class YKT {
+
+    public static void main(String[] args) {
+        String msg = tradePage();
+        System.out.println(msg);
+    }
     public static String tradePage(){
         String apikey ="ykt.html";
         String nonce =RandomUtil.randomInt(8)+"-e28e-11ee-b884-b32830c59fdd";
@@ -54,10 +59,35 @@ public class YKT {
             Date entrustTimeDate = DateUtil.date(Long.parseLong(entrustTime));
             String  entrustTimeStr = DateUtil.format(entrustTimeDate, "yyyy-MM-dd HH:mm:ss.SSS");
             String remark = infoJson.getStr("remark");
-            info += tradeTimeStr+" ; "+tradeTypeName+" ; "+stockId+" ; "+statusMsg +" ; "+dealNumber+" ; "+entrustAmt+" ; "+tradeMoney+" ; "+entrustPrice+" ; "+entrustTimeStr+" ; "+dealTimeStr+" ; "+remark+" ; "+"%0D%0A%0D%0A ";
+            info += tradeTimeStr+" ; "+tradeTypeName+" ; "+stockId+" ; "+statusMsg +" ;  "+entrustAmt+" ;  "+entrustPrice+" ; "+entrustTimeStr+" ; "+remark+"  "+"%0D%0A%0D%0A ";
         }
-
+        System.out.println(info);
         return info;
+    }
+
+    public static String summary(){
+        String apikey ="ykt.html";
+//        96be85d2-e29f-11ee-8119-d712c536ee30
+        String nonce =RandomUtil.randomInt(8)+"-e28e-11ee-b884-b32830c59fdd";
+        String timestamp =System.currentTimeMillis()+"";
+        Digester md5 = new Digester(DigestAlgorithm.MD5);
+        String sign =md5.digestHex("".concat(nonce).concat(timestamp).concat("no.secret"));
+
+        String body = HttpRequest.post("https://yktapi.emoney.cn/JinNang/Data/Summary")
+                .body("{\"jinNangId\":\"2011624335\"}")
+                .header("Content-Type", "application/json;charset=UTF-8")
+                .header("Emapp-Apikey", apikey)
+                .header("Emapp-Nonce", nonce)
+                .header("Emapp-Sign", sign)
+                .header("Emapp-Timestamp", timestamp)
+                .execute().body();
+        System.out.println(body);
+        JSONObject jsonObject = JSONUtil.parseObj(body);
+        JSONObject detailJson = jsonObject.getJSONObject("detail");
+        String latestTradeTime = detailJson.getStr("latestTradeTime");
+        Date latestTradeTimeDate = DateUtil.date(Long.parseLong(latestTradeTime));
+        String  latestTradeTimeStr = DateUtil.format(latestTradeTimeDate, "yyyy-MM-dd HH:mm:ss.SSS");
+        return latestTradeTimeStr;
     }
 
 }
