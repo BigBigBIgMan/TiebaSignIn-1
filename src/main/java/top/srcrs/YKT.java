@@ -1,6 +1,7 @@
 package top.srcrs;
 
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
@@ -12,9 +13,10 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 public class YKT {
-
+    static TimeZone cnTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
     public static void main(String[] args) {
         String msg = tradePage();
         System.out.println(msg);
@@ -43,7 +45,8 @@ public class YKT {
             JSONObject infoJson = JSONUtil.parseObj(o);
             String tradeTime = infoJson.getStr("tradeTime");
             Date date = DateUtil.date(Long.parseLong(tradeTime));
-            String tradeTimeStr = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss.SSS");
+            DateTime tradeTimeDateTime = DateUtil.convertTimeZone(date, cnTimeZone);
+            String tradeTimeStr = DateUtil.format(tradeTimeDateTime, "yyyy-MM-dd HH:mm:ss.SSS");
             String tradeType = infoJson.getStr("tradeType");
             String tradeTypeName = infoJson.getStr("tradeTypeName");
             String stockId = infoJson.getStr("stockId");
@@ -54,10 +57,14 @@ public class YKT {
             String entrustPrice = infoJson.getStr("entrustPrice");
             String dealTime = infoJson.getStr("dealTime");
             Date dealTimeDate = DateUtil.date(Long.parseLong(dealTime));
-            String  dealTimeStr = DateUtil.format(dealTimeDate, "yyyy-MM-dd HH:mm:ss.SSS");
+            DateTime dealTimeDateTime = DateUtil.convertTimeZone(dealTimeDate, cnTimeZone);
+            String  dealTimeStr = DateUtil.format(dealTimeDateTime, "yyyy-MM-dd HH:mm:ss.SSS");
+
             String entrustTime = infoJson.getStr("entrustTime");
             Date entrustTimeDate = DateUtil.date(Long.parseLong(entrustTime));
-            String  entrustTimeStr = DateUtil.format(entrustTimeDate, "yyyy-MM-dd HH:mm:ss.SSS");
+            DateTime entrustDateTime = DateUtil.convertTimeZone(entrustTimeDate, cnTimeZone);
+            String  entrustTimeStr = DateUtil.format(entrustDateTime, "yyyy-MM-dd HH:mm:ss.SSS");
+
             String remark = infoJson.getStr("remark");
             info += tradeTimeStr+" ; "+tradeTypeName+" ; "+stockId+" ; "+statusMsg +" ;  "+entrustAmt+" ;  "+entrustPrice+" ; "+entrustTimeStr+" ; "+remark+"  "+"%0D%0A%0D%0A ";
         }
